@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>&nbsp Wishlist</h1>
+
+<div id="products">
+{% for product in wishlistList %}
+<div id="productsItem">
+<p><a href="{{ url_for('product', product_id=product.id) }}"><img class="wishImg" src="{{ url_for('static', filename='img/' + product.image_file) }}" height="175" width="140" class="productimage"></a>
+    <form class="text" action="{{url_for('deleteWishlist')}}" method="post">
+      <input type="hidden" name="product_id" value="{{product.id}}">
+      <button type="submit" name="deleteWishlist" onCLick="alert('Removed from Wishlist')" class="ProductButton">Remove from Wishlist</button>
+    </form>
+  <br>
+  {{ product.name }}&nbsp
+  : £{{'%0.2f'|format(product.price|float)}}</p>
+<p>{{ product.content }}</p>
+<div class="card-footer">
+<button class="ProductButton" id="left-button"><a href="{{ url_for('product', product_id=product.id) }}">Details</a></button>
+<form action="{{url_for('AddBasket')}}" method="post">
+  <input type="hidden" name="product_id" value="{{product.id}}">
+  <button type="submit" name="AddtoCart" onCLick="alert('Added to Basket')" class="ProductButton" id="right-button">Add to Cart</button>
+  <input type="hidden" name="quantity" id="" value="1" min="1">
+</form>
+</div>
+</div>
+{% endfor %}
+</div>
+{% endblock content %}

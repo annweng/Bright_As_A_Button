@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>&nbsp Shopping Basket</h1>
+<br>
+{% if subtotal > 0 %}
+<div id="BasketDesign">
+<table class="table">
+  <thead>
+    <th></th>
+    <th>Name</th>
+    <th>Price</th>
+    <th colspan="2">Quantity</th>
+    <th>Delete</th>
+  </thead>
+  <tbody>
+    {% for product in BasketList %}
+    <tr>
+      <td><img src="{{url_for('static', filename='img/' + product[0].image_file) }}" height="30" width="28"></td>
+      <td>{{product[0].name}}</td>
+      <td>£{{'%0.2f'|format(product[0].price|float)}}</td>
+      <td>{{product[1]}}</td>
+      <td><form action="{{url_for('IncreaseQuantity')}}" method="post"><input type="hidden" name="product_id" value="{{product[0].id}}">
+        <button type="submit">+</button>
+      </form>&nbsp
+      <form action="{{url_for('DecreaseQuantity')}}" method="post"><input type="hidden" name="product_id" value="{{product[0].id}}">
+        <button type="submit">-</button>
+      </form></td>
+      <td><form action="{{url_for('deleteproduct')}}" method="post"><input type="hidden" name="product_id" value="{{product[0].id}}">
+        <button type="submit">Delete</button>
+      </form></td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br>
+Subtotal: £{{'%0.2f'|format(subtotal|float)}}
+<br>
+<br>
+<button class="ProductButton"><a href="{{ url_for('shipping')}}">Proceed To Checkout</a></button>
+<br>
+<br>
+</div>
+{% endif %}
+{% endblock content %}

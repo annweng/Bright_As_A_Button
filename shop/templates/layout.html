@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel=stylesheet type=text/css href="{{ url_for('static',filename='style.css') }}">
+  <title>Bright As A Button</title>
+</head>
+
+<body>
+  <div id="wrapper">
+  <div id="header">
+    <a href="{{ url_for('home') }}">Home</a>&nbsp
+    <a href="{{ url_for('about') }}">About Us</a>&nbsp
+    <a href="{{ url_for('basket')}}" title="Basket" data-tip="Basket"><img id="ShoppingBasket" src="{{url_for('static', filename='img/ShoppingBasket1.png')}}" alt="Basket" height="30" width="30"></a>
+    {% if current_user.is_authenticated %}
+    <div id="User">
+    <a href="{{ url_for('wishlist')}}" title="Wishlist" ><img id="heart" src="{{url_for('static', filename='img/heart.png')}}" alt="WishList" height="30" width="30"></a>&nbsp
+    Hello, {{ current_user.username }}!
+    <a href="{{ url_for('logout') }}">Logout</a>&nbsp
+    </div>
+    {% else %}
+    <div id="Guest">
+    Hello, Guest! &nbsp| <a href="{{ url_for('login') }}">Login&nbsp;</a>
+    or <a href="{{ url_for('register') }}">Register</a>&nbsp|
+    </div>
+    {% endif %}
+  </div>
+
+ <center>
+  <div>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li class="flash_message" >{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  </div>
+ </center>
+
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <div id=footer>
+    <center>
+    Get in touch with us!<br>
+    Email: brightasabutton.wa@gmail.com &nbsp
+    <a href="https://www.instagram.com/bright_asa_button/" target="_blank">
+      <img src="{{url_for('static', filename='img/instagram.png')}}" alt="Instagram" height="40" width="40">
+    </a>
+  </div>
+</div>
+</body>
+</html>

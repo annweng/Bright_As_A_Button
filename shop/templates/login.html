@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<center>
+<div id="login">
+<h1>Login Page</h1>
+<p>Login in to add to your wishlist or leave reviews!</p>
+<p>Not registered? Create an account <a href="{{ url_for('register') }}"><b>here</b></a></p>
+<br>
+<form method="POST" action="">
+  {{ form.csrf_token }}
+  {{ form.email.label }}
+  <br>
+  {{ form.email }}
+  <br>
+  <br>
+  {{ form.password.label }}
+  <br>
+  {{ form.password }}
+  <br>
+  <br>
+  <input type="submit" value="Login">
+  <br>
+</form>
+<div>
+</center>
+<br>
+<br>
+{% endblock content %}

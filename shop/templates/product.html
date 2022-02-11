@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="BacktoHome" ><a href="{{ url_for('home') }}"><u>See all items</u></a></div>
+<br>
+<br>
+<div class="productInfo">
+  <div class="productInfoPhoto">
+<img src="{{url_for('static', filename='img/' + product.image_file) }}" height="250" width="230">
+  </div>
+  <div class="ProductInfoText">
+<p>{{ product.name }} &nbsp Price: £{{'%0.2f'|format(product.price|float)}}</p>
+<p>Size: {{product.size}}</p>
+<p>Colour: {{product.colour}}</p>
+<p>{{ product.description }}</p>
+<form action="{{url_for('AddBasket')}}" method="post">
+  <input type="hidden" name="product_id" value="{{product.id}}">
+  <button type="submit" name="AddtoCart" onCLick="alert('Added to Basket')" class="ProductButton">Add to Cart</button>
+  <br><br>
+  <label for="">Quantity:</label>
+  <input type="number" name="quantity" id="quantity" value="1" min="1">
+</form>
+<br>
+<br>
+<form action="{{url_for('AddWishlist')}}" method="post">
+  <input type="hidden" name="product_id" value="{{product.id}}">
+  <button type="submit" name="AddtoWishlist" onCLick="alert('Added to Wishlist')" class="ProductButton">Add to Wishlist</button>
+</form>
+<form action="{{url_for('deleteWishlist')}}" method="post">
+  <input type="hidden" name="product_id" value="{{product.id}}">
+  <button type="submit" name="deleteWishlist" onCLick="alert('Removed from Wishlist')" class="ProductButton">Remove from Wishlist</button>
+</form>
+  </div>
+</div>
+
+<br>
+<div class="reviews">
+<h3>Customer Reviews</h3>
+{% for review in reviews %}
+<p>"{{ review.content }}" &nbsp <small>Author: {{ review.user.username }}</small></p>
+{% endfor %}
+<br>
+<br>
+<form method="POST" action="{{ url_for('product_review', product_id=product.id) }}">
+  {{ form.hidden_tag() }}
+  <div>
+    Post a review!
+    <br>
+    {{ form.review.label }} {{form.review }}
+    {% for error in form.review.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </div>
+  <div>
+    <br>
+    {{ form.submit() }}
+  </div>
+</form>
+</div>
+<br>
+<br>
+{% endblock content %}

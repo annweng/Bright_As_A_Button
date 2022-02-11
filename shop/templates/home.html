@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<center><img id="HomeLogo" src="static/img/logo.jpg" alt="Logo" width="200" height="150"></center>
+<div id="HomeInfo">
+<form>
+  <p>Filter Items</p>
+  <select name="Filter" onchange="location = this.value;">
+  <option selcted>Filter</option>
+  <option value="/home">All</option>
+  <option value="/LowToHigh">Price: Low to High</option>
+  <option value="/HighToLow">Price: High to Low</option>
+  <option value="/Adults">Size: Adult</option>
+  <option value="/Childs">Size: Childs</option>
+  </select>
+</form>
+</div>
+<br>
+<p id="productTitle">Products</p>
+<br>
+<div id="products">
+{% for product in products %}
+<div id="productsItem">
+<p><a href="{{ url_for('product', product_id=product.id) }}"><img src="{{ url_for('static', filename='img/' + product.image_file) }}" height="175" width="140" class="productimage"></a>
+  <br>
+  {{ product.name }}&nbsp
+  : £{{'%0.2f'|format(product.price|float)}}</p>
+<p>{{ product.content }}</p>
+<div class="card-footer">
+<button class="ProductButton" id="left-button"><a href="{{ url_for('product', product_id=product.id) }}">Details</a></button>
+<form action="{{url_for('AddBasket')}}" method="post">
+  <input type="hidden" name="product_id" value="{{product.id}}">
+  <button type="submit" name="AddtoCart" onCLick="alert('Added to Basket')" class="ProductButton" id="right-button">Add to Cart</button>
+  <input type="hidden" name="quantity" id="" value="1" min="1">
+</form>
+</div>
+</div>
+{% endfor %}
+</div>
+
+{% endblock content %}

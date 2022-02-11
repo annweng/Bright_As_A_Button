@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+  <h1>Checkout</h1>
+  <p>Subtotal: £{{ '%0.2f'|format(subtotal|float) }}</p>
+
+<form method="POST" action="" class="checkout_form">
+  <br>
+  <img src="static/img/visa.png" alt="Visa" height="30" width="40">
+  &nbsp;
+  <img src="static/img/mastercard.png" alt="Mastercard" height="30" width="40">
+  &nbsp;
+  <img src="static/img/americanExpress.png" alt="American Express" height="30" width="40">
+  <br>
+  <br>
+  {{ form.csrf_token }}
+  <div class="fields">
+  {{ form.name.label }} {{ form.name }}<br>{% for error in form.name.errors %}<span style="color: red;">{{error}}</span>{% endfor %}
+  </div>
+  <div class="hidden">Enter the name exactly how it is shown on the card</div>
+  <br>
+  <br>
+  <div class="fields">
+  {{ form.number.label }} {{ form.number }}<br>{% for error in form.number.errors %}<span style="color: red;">{{error}}</span>{% endfor %}
+  </div>
+  <div class="hidden">The longest number on the card</div>
+  <br>
+  <br>
+  <div class="fields">
+  {{ form.month.label }} {{ form.month }} /  {{ form.year }}
+  <br>{% for error in form.month.errors %}<span style="color: red;">{{error}}</span>{% endfor %}
+  {% for error in form.year.errors %}<span style="color: red;">{{error}}</span>{% endfor %}
+  </div>
+  <div class="hidden">Enter the date the card expires e.g. 03/20</div>
+  <br>
+  <br>
+  <div class="fields">
+  {{ form.code.label }} {{ form.code }}<br>{% for error in form.code.errors %}<span style="color: red;">{{error}}</span><br>{% endfor %}
+  </div>
+  <div class="hidden">Enter the 3 or 4 digit number on the back of the card</div>
+  <br>
+  <input type="submit" value="Pay now">
+</form>
+{% endblock content %}
